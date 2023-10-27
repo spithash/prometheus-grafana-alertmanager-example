@@ -30,7 +30,7 @@ services:
       mode: global
 
   node-exporter:
-    image: prom/node-exporter
+    image: prom/node-exporter:v1.6.1
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -73,7 +73,7 @@ services:
       mode: global
 
   grafana:
-    image: grafana/grafana:10.0.1
+    image: grafana/grafana:10.2.0
     depends_on:
       - prometheus
     ports:
