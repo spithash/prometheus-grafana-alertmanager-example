@@ -1,10 +1,10 @@
 #!/bin/sh
-apt-get update
+apt update
 
 if ! type "docker" > /dev/null; then
   echo "Installing Docker"
-  apt-get -y install docker.io
-  apt-get -y install docker-ce
+  apt -y install docker.io
+  apt -y install docker-ce
 fi
 
 # get ips | search inet addr: | split on : get 2nd field | print out
@@ -19,7 +19,7 @@ docker swarm init --advertise-addr="$ADDRESS"
 
 if ! type "git" > /dev/null; then
   echo "Installing Git"
-  apt-get -y install git
+  apt -y install git
 fi
 
 DIRECTORY="prometheus-grafana-alertmanager-example"
