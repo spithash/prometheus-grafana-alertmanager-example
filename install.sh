@@ -22,12 +22,12 @@ if ! type "git" > /dev/null; then
   apt-get -y install git
 fi
 
-DIRECTORY="prometheus-grafana-alertmanager-stack"
+DIRECTORY="prometheus-grafana-alertmanager-example"
 if [ -d "$DIRECTORY" ]; then
   rm -rf "$DIRECTORY"
 fi
 echo "Cloning Project"
-git clone https://github.com/spithash/prometheus-grafana-alertmanager-example.git $DIRECTORY
+git clone https://github.com/spithash/prometheus-grafana-alertmanager-example.git
 cd "$DIRECTORY"
 
 echo "Making Utility scripts executable"
