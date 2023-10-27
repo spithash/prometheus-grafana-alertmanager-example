@@ -1,4 +1,4 @@
-version: '3.1'
+version: "3.1"
 
 volumes:
     prometheus_data: {}
@@ -7,90 +7,90 @@ volumes:
 services:
 
   prometheus:
-    image: prom/prometheus:v2.45.0
+    image: "prom/prometheus:v2.45.0"
     volumes:
-      - ./prometheus/:/etc/prometheus/
-      - prometheus_data:/prometheus
+      - "./prometheus/:/etc/prometheus/"
+      - "prometheus_data:/prometheus"
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=1d'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=1d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.enable-lifecycle"
     ports:
-      - 9090:9090
+      - "9090:9090"
     links:
-      - cadvisor:cadvisor
-      - alertmanager:alertmanager
+      - "cadvisor:cadvisor"
+      - "alertmanager:alertmanager"
     depends_on:
-      - cadvisor
-    restart: always
+      - "cadvisor"
+    restart: "always"
     deploy:
-      mode: global
+      mode: "global"
 
   node-exporter:
-    image: prom/node-exporter:v1.6.1
+    image: "prom/node-exporter:v1.6.1"
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/rootfs:ro"
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - --collector.filesystem.ignored-mount-points
-      - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.ignored-mount-points"
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     ports:
-      - 9100:9100
-    restart: always
+      - "9100:9100"
+    restart: "always"
     deploy:
-      mode: global
+      mode: "global"
 
   alertmanager:
-    image: prom/alertmanager:v0.26.0
+    image: "prom/alertmanager:v0.26.0"
     ports:
-      - 9093:9093
+      - "9093:9093"
     volumes:
-      - ./alertmanager/:/etc/alertmanager/
-    restart: always
+      - "./alertmanager/:/etc/alertmanager/"
+    restart: "always"
     command:
-      - '-config.file=/etc/alertmanager/config.yml'
-      - '-storage.path=/alertmanager'
+      - "-config.file=/etc/alertmanager/config.yml"
+      - "-storage.path=/alertmanager"
     deploy:
-      mode: global
+      mode: "global"
 
   cadvisor:
-    image: google/cadvisor
+    image: "google/cadvisor"
     volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
     ports:
-      - 8080:8080
-    restart: always
+      - "8080:8080"
+    restart: "always"
     deploy:
-      mode: global
+      mode: "global"
 
   grafana:
-    image: grafana/grafana:10.2.0
+    image: "grafana/grafana:10.2.0"
     depends_on:
-      - prometheus
+      - "prometheus"
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
-      - grafana_data:/var/lib/grafana
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
-      - ./grafana/provisioning:/etc/grafana/provisioning
+      - "grafana_data:/var/lib/grafana"
+      - "./grafana/dashboards:/var/lib/grafana/dashboards"
+      - "./grafana/provisioning:/etc/grafana/provisioning"
     env_file:
-      - config.monitoring
+      - "config.monitoring"
 
   blackbox_exporter:
-    image: prom/blackbox-exporter:v0.24.0
+    image: "prom/blackbox-exporter:v0.24.0"
     ports:
-      - 9115:9115
+      - "9115:9115"
     volumes:
-      - ./blackboxexporter/:/etc/blackboxexporter/
+      - "./blackboxexporter/:/etc/blackboxexporter/"
     command:
-      - '--config.file=/etc/blackboxexporter/config.yml'
-    restart: always
+      - "--config.file=/etc/blackboxexporter/config.yml"
+    restart: "always"
